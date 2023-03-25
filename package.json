@@ -1,0 +1,34 @@
+{
+  "name": "skyline-reservations-back",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.ts",
+  "author": "Carlos Gamboa",
+  "license": "ISC",
+  "workspaces": [
+    "lambda-flight-reservation",
+    "lambda-payments-discounts",
+    "lambda-flights-info",
+    "lambda-query-cities"
+  ],
+  "engines": {
+    "npm": "^9.3.1"
+  },
+  "scripts": {
+    "start": "node build/index.js",
+    "dev": "ts-node-dev src/index.ts",
+    "lint": "ts-standard ./lambda-flight-reservation ./lambda-payments-discounts ./lambda-flights-info ./lambda-query-cities",
+    "lint:fix": "ts-standard --fix",
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "extends": [
+      "./node_modules/ts-standard/eslintrc.json"
+    ]
+  }
+}
