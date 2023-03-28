@@ -18,8 +18,9 @@
   "scripts": {
     "start": "node build/index.js",
     "dev": "ts-node-dev src/index.ts",
-    "lint": "ts-standard ./lambda-flight-reservation ./lambda-payments-discounts ./lambda-flights-info ./lambda-query-cities",
-    "lint:fix": "ts-standard --fix",
+    "build": "tsc --project ./",
+    "lint": "eslint . ",
+    "lint:fix": "eslint . --fix",
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

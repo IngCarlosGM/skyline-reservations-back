@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model airports {
+  airport_id  String @id(map: "airports_pk") @db.VarChar
+  description String @db.VarChar
+  id_city_id  String @db.VarChar
+  cities      cities @relation(fields: [id_city_id], references: [city_id], onDelete: NoAction, onUpdate: NoAction, map: "airports_fk")
+}
+
+model cities {
+  city_id                                                    String          @id(map: "cities_pk") @db.VarChar
+  description                                                String          @db.VarChar
+  id_country_id                                              String          @db.VarChar
+  airports                                                   airports[]
+  countries                                                  countries       @relation(fields: [id_country_id], references: [country_id], onDelete: NoAction, onUpdate: NoAction, map: "cities_fk")
+  flights_route_flights_route_id_city_origin_idTocities      flights_route[] @relation("flights_route_id_city_origin_idTocities")
+  flights_route_flights_route_id_city_destination_idTocities flights_route[] @relation("flights_route_id_city_destination_idTocities")
+}
+
+model countries {
+  country_id   String   @id(map: "countries_pk") @db.VarChar
+  description  String   @db.VarChar
+  id_region_id String   @db.VarChar
+  cities       cities[]
+  regions      regions  @relation(fields: [id_region_id], references: [region_id], onDelete: Cascade, onUpdate: NoAction, map: "countries_fk")
+}
+
+model regions {
+  region_id   String      @id(map: "regions_pk") @db.VarChar
+  description String      @db.VarChar
+  countries   countries[]
+}
+
+model flights_route {
+  distance                                            Decimal @db.Decimal(7, 2)
+  duration_time                                       Decimal @db.Decimal(4, 2)
+  id_city_origin_id                                   String  @db.VarChar
+  id_city_destination_id                              String  @db.VarChar
+  cities_flights_route_id_city_origin_idTocities      cities  @relation("flights_route_id_city_origin_idTocities", fields: [id_city_origin_id], references: [city_id], onDelete: Cascade, onUpdate: NoAction, map: "flights_route_fk")
+  cities_flights_route_id_city_destination_idTocities cities  @relation("flights_route_id_city_destination_idTocities", fields: [id_city_destination_id], references: [city_id], onDelete: Cascade, onUpdate: NoAction, map: "flights_route_fk_1")
+
+  @@id([id_city_origin_id, id_city_destination_id], map: "flights_route_pk")
+}
